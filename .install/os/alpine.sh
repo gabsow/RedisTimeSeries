@@ -12,3 +12,11 @@
 
 alpine_default_install
 apk_install py3-cryptography py3-numpy py3-psutil openblas-dev xsimd
+
+# uv's standalone musl CPython is built with clang and bakes clang-only
+# flags (--rtlib=compiler-rt) into its sysconfig, so sdist-only deps that
+# lack musl wheels (psutil==5.9.8 via rltest) fail to compile with
+# /usr/bin/cc (gcc). Point the venv at Alpine's own python3 instead
+# (already installed above together with the headers).
+SETUP_PYTHON_VERSION="$(command -v python3)"
+export SETUP_PYTHON_VERSION
