@@ -20,3 +20,6 @@ apk_install py3-cryptography py3-numpy py3-psutil openblas-dev xsimd
 # (already installed above together with the headers).
 SETUP_PYTHON_VERSION="$(command -v python3)"
 export SETUP_PYTHON_VERSION
+# Also forbid uv from downloading its managed (clang-built) interpreter — a
+# bare --python <path>/<version> alone still lets uv prefer a managed download.
+export UV_PYTHON_DOWNLOADS=never
